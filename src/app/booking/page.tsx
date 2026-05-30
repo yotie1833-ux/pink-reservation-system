@@ -467,7 +467,6 @@ function DateTimeStep({
               boxSizing: 'border-box',
               transition: 'border-color 0.2s',
               textAlign: 'center',
-              height: '64px',
             }}
           />
           {dateError && (
@@ -504,7 +503,6 @@ function DateTimeStep({
               boxSizing: 'border-box',
               transition: 'border-color 0.2s',
               textAlign: 'center',
-              height: '64px',
             }}
           >
             <option value="">時間を選択してください</option>
