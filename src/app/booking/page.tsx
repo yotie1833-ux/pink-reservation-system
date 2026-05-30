@@ -928,6 +928,7 @@ export default function BookingPage() {
           time,
           lineUserId,
           customerName,
+          phoneNumber,
         }),
       })
       if (!lineRes.ok) {
@@ -954,6 +955,7 @@ export default function BookingPage() {
           time,
           lineUserId,
           customerName,
+          phoneNumber,
         }),
       })
       const calData = await calRes.json()

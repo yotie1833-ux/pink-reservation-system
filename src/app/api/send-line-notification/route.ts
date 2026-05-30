@@ -8,6 +8,7 @@ type NotificationPayload = {
   time: string
   lineUserId?: string
   customerName?: string
+  phoneNumber?: string
 }
 
 function buildCustomerMessage(payload: NotificationPayload): string {
@@ -43,6 +44,7 @@ function buildOwnerMessage(payload: NotificationPayload): string {
     '【新規予約が入りました！】',
     '',
     `■ お客様名：${customerName || '未入力'}`,
+    `■ 電話番号：${payload.phoneNumber || '未入力'}`,
     `■ メニュー：${menuType}`,
     `■ コース　：${duration}分コース`,
     `■ 料金　　：¥${price.toLocaleString()}`,
