@@ -438,7 +438,7 @@ function DateTimeStep({
   return (
     <Card>
       <StepTitle>日時を選んでください</StepTitle>
-      <div style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <div style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', paddingTop: '1.5rem' }}>
         <div style={{ marginBottom: '1rem' }}>
           <label
             style={{
@@ -467,7 +467,7 @@ function DateTimeStep({
               boxSizing: 'border-box',
               transition: 'border-color 0.2s',
               textAlign: 'center',
-              WebkitAppearance: 'none',
+              height: '64px',
             }}
           />
           {dateError && (
@@ -504,6 +504,7 @@ function DateTimeStep({
               boxSizing: 'border-box',
               transition: 'border-color 0.2s',
               textAlign: 'center',
+              height: '64px',
             }}
           >
             <option value="">時間を選択してください</option>
