@@ -413,7 +413,7 @@ function DateTimeStep({
   settings: Settings
   duration: number
 }) {
-  const today = new Date().toISOString().split('T')[0]
+  const today = new Date(new Date().toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' })).toISOString().split('T')[0]
   const [dateError, setDateError] = useState<string | null>(null)
   const timeSlots = generateTimeSlots(settings.opening_time, settings.closing_time, duration)
   const isClosedDay = date
