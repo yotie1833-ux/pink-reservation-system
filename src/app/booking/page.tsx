@@ -548,6 +548,10 @@ function ConfirmStep({
   onConfirm: () => void
   loading: boolean
   error: string | null
+  customerName: string
+  phoneNumber: string
+  setCustomerName: (v: string) => void
+  setPhoneNumber: (v: string) => void
 }) {
   const formattedDate = new Date(date + 'T00:00:00').toLocaleDateString('ja-JP', {
     year: 'numeric',
