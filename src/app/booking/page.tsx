@@ -421,7 +421,9 @@ function DateTimeStep({
     : false
 
   const handleDateChange = (newDate: string) => {
-    const todayJST = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' })
+    const now = new Date()
+    const jstTime = new Date(now.getTime() + 9 * 60 * 60 * 1000)
+    const todayJST = jstTime.toISOString().split('T')[0]
     if (newDate < todayJST) {
       setDateError('過去の日付は選択できません。')
       setDate('')
