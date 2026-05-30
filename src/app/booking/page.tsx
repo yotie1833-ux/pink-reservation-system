@@ -436,9 +436,9 @@ function DateTimeStep({
   }
 
   return (
-    <Card justify="flex-start">
+    <Card>
       <StepTitle>日時を選んでください</StepTitle>
-      <div style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem', marginTop: '1rem' }}>
+      <div style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <div style={{ marginBottom: '1rem' }}>
           <label
             style={{
@@ -460,13 +460,14 @@ function DateTimeStep({
               width: '100%',
               border: `2px solid ${dateError ? '#FC8181' : date ? PINK : '#BBBBBB'}`,
               borderRadius: '0.75rem',
-              padding: '0.9rem 1rem',
+              padding: '1.1rem 1rem',
               fontSize: '1rem',
               outline: 'none',
               color: '#333',
               boxSizing: 'border-box',
               transition: 'border-color 0.2s',
               textAlign: 'center',
+              WebkitAppearance: 'none',
             }}
           />
           {dateError && (
@@ -495,7 +496,7 @@ function DateTimeStep({
               width: '100%',
               border: `2px solid ${time ? PINK : '#BBBBBB'}`,
               borderRadius: '0.75rem',
-              padding: '0.9rem 1rem',
+              padding: '1.1rem 1rem',
               fontSize: '1rem',
               outline: 'none',
               color: time ? '#333333' : '#666666',
