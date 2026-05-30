@@ -467,7 +467,6 @@ function DateTimeStep({
               boxSizing: 'border-box',
               transition: 'border-color 0.2s',
               textAlign: 'center',
-              width: '100%',
             }}
           />
           {dateError && (
