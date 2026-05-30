@@ -575,7 +575,7 @@ function ConfirmStep({
       {/* お名前・携帯番号 */}
       <div style={{ paddingLeft: '1rem', paddingRight: '1rem', marginBottom: '1rem' }}>
         <div style={{ marginBottom: '0.75rem' }}>
-          <label style={{ color: '#666666', fontWeight: 'bold', fontSize: '0.88rem', display: 'block', marginBottom: '0.4rem' }}>
+          <label style={{ color: '#666666', fontWeight: 'bold', fontSize: '1.05rem', display: 'block', marginBottom: '0.5rem' }}>
             👤 お名前
           </label>
           <input
@@ -587,8 +587,8 @@ function ConfirmStep({
               width: '100%',
               border: `2px solid ${customerName ? '#dd488d' : '#BBBBBB'}`,
               borderRadius: '0.75rem',
-              padding: '0.65rem 0.75rem',
-              fontSize: '1rem',
+              padding: '1rem 0.75rem',
+              fontSize: '1.1rem',
               outline: 'none',
               color: '#333',
               boxSizing: 'border-box' as const,
@@ -596,7 +596,7 @@ function ConfirmStep({
           />
         </div>
         <div>
-          <label style={{ color: '#666666', fontWeight: 'bold', fontSize: '0.88rem', display: 'block', marginBottom: '0.4rem' }}>
+          <label style={{ color: '#666666', fontWeight: 'bold', fontSize: '1.05rem', display: 'block', marginBottom: '0.5rem' }}>
             📱 携帯番号
           </label>
           <input
@@ -608,8 +608,8 @@ function ConfirmStep({
               width: '100%',
               border: `2px solid ${phoneNumber ? '#dd488d' : '#BBBBBB'}`,
               borderRadius: '0.75rem',
-              padding: '0.65rem 0.75rem',
-              fontSize: '1rem',
+              padding: '1rem 0.75rem',
+              fontSize: '1.1rem',
               outline: 'none',
               color: '#333',
               boxSizing: 'border-box' as const,
