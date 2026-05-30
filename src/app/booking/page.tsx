@@ -460,13 +460,14 @@ function DateTimeStep({
               width: '100%',
               border: `2px solid ${dateError ? '#FC8181' : date ? PINK : '#BBBBBB'}`,
               borderRadius: '0.75rem',
-              padding: '1rem 0.75rem',
+              padding: '1.2rem 1rem',
               fontSize: '1.1rem',
               outline: 'none',
               color: '#333',
               boxSizing: 'border-box',
               transition: 'border-color 0.2s',
               textAlign: 'center',
+              width: '100%',
             }}
           />
           {dateError && (
@@ -495,7 +496,7 @@ function DateTimeStep({
               width: '100%',
               border: `2px solid ${time ? PINK : '#BBBBBB'}`,
               borderRadius: '0.75rem',
-              padding: '1rem 0.75rem',
+              padding: '1.2rem 1rem',
               fontSize: '1.1rem',
               outline: 'none',
               color: time ? '#333333' : '#666666',
