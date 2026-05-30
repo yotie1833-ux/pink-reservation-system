@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import liff from '@line/liff'
 import { supabase } from '@/lib/supabase'
 
 type MenuType = '対面占い' | '電話占い'
@@ -771,11 +772,29 @@ export default function BookingPage() {
   const [error, setError] = useState<string | null>(null)
   const [customerName, setCustomerName] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
+  const [lineUserId, setLineUserId] = useState<string | null>(null)
   const [settings, setSettings] = useState<Settings>({
     opening_time: '10:00',
     closing_time: '20:00',
     closed_days: [],
   })
+
+  useEffect(() => {
+    const initLiff = async () => {
+      try {
+        await liff.init({ liffId: process.env.NEXT_PUBLIC_LIFF_ID! })
+        if (liff.isLoggedIn()) {
+          const profile = await liff.getProfile()
+          setLineUserId(profile.userId)
+        } else {
+          liff.login()
+        }
+      } catch (e) {
+        console.error('[LIFF] 初期化エラー:', e)
+      }
+    }
+    initLiff()
+  }, [])
 
   useEffect(() => {
     const fetchSettings = async () => {
@@ -875,6 +894,7 @@ export default function BookingPage() {
       reservation_time: time,
       customer_name: customerName,
       phone_number: phoneNumber,
+      customer_line_id: lineUserId,
     }
     console.log('[Supabase] 送信データ:', payload)
 
@@ -906,6 +926,8 @@ export default function BookingPage() {
           price,
           date,
           time,
+          lineUserId,
+          customerName,
         }),
       })
       if (!lineRes.ok) {
@@ -930,6 +952,8 @@ export default function BookingPage() {
           price,
           date,
           time,
+          lineUserId,
+          customerName,
         }),
       })
       const calData = await calRes.json()
