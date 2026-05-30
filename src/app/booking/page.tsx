@@ -53,38 +53,23 @@ const GOLD = '#D4AF37'
 
 function Header() {
   return (
-    <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+    <div style={{ textAlign: 'center', marginBottom: '0.5rem' }}>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.75rem', marginBottom: '0.25rem' }}>
         <span style={{ fontSize: '1.8rem', display: 'inline-block', animation: 'spin 6s linear infinite' }}>🌙</span>
         <h1 style={{ color: PINK, fontSize: '1.75rem', fontWeight: '700', letterSpacing: '0.04em', margin: 0 }}>
-          カード占い予約
+          Pink占い予約
         </h1>
         <span style={{ fontSize: '1.8rem', display: 'inline-block', animation: 'spin 4s linear infinite reverse' }}>☀️</span>
       </div>
-      <p style={{ color: PINK, fontSize: '0.9rem', letterSpacing: '0.25em', margin: '0.25rem 0 0.75rem' }}>
-        Pink -ピンク-
-      </p>
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>
-        {[0, 1, 2].map((i) => (
-          <span
-            key={i}
-            style={{
-              color: GOLD,
-              fontSize: '1.1rem',
-              animation: `pulse 1.5s ease-in-out ${i * 0.4}s infinite`,
-            }}
-          >
-            ✦
-          </span>
-        ))}
-      </div>
+
+
     </div>
   )
 }
 
 function StepIndicator({ currentStep }: { currentStep: number }) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2rem' }}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '0.75rem' }}>
       {STEPS.map((label, i) => {
         const stepNum = i + 1
         const isActive = currentStep === stepNum
@@ -146,7 +131,7 @@ function Card({ children }: { children: React.ReactNode }) {
       style={{
         background: 'white',
         borderRadius: '1.5rem',
-        padding: '2.5rem 2rem',
+        padding: '1.5rem 1.5rem',
         boxShadow: '0 8px 32px rgba(221,72,141,0.15)',
         maxWidth: '360px',
         width: '100%',
@@ -715,7 +700,7 @@ function CompletedScreen({ onReset }: { onReset: () => void }) {
         style={{
           background: 'white',
           borderRadius: '1.5rem',
-          padding: '2.5rem 2rem',
+          padding: '1.5rem 1.5rem',
           textAlign: 'center',
           maxWidth: '360px',
           width: '100%',
@@ -1024,7 +1009,7 @@ export default function BookingPage() {
         style={{
           minHeight: '100vh',
           background: 'linear-gradient(135deg, #FFE5F1, #FFD6E8)',
-          padding: '2rem 1rem',
+          padding: '1rem 1rem',
         }}
       >
         <div style={{ maxWidth: '480px', margin: '0 auto' }}>
