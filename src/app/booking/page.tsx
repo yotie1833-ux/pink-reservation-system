@@ -1022,6 +1022,10 @@ export default function BookingPage() {
               date={date}
               time={time}
               price={price}
+              customerName={customerName}
+              phoneNumber={phoneNumber}
+              setCustomerName={setCustomerName}
+              setPhoneNumber={setPhoneNumber}
               onBack={() => setStep(3)}
               onConfirm={handleConfirm}
               loading={loading}
