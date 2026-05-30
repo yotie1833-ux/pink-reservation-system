@@ -136,10 +136,11 @@ function Card({ children }: { children: React.ReactNode }) {
         maxWidth: '360px',
         width: '100%',
         margin: '0 auto',
-        minHeight: '65vh',
+        height: 'calc(100vh - 185px)',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
+        overflowY: 'auto',
       }}
     >
       {children}
