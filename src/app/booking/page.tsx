@@ -421,6 +421,13 @@ function DateTimeStep({
     : false
 
   const handleDateChange = (newDate: string) => {
+    const todayJST = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' })
+    if (newDate < todayJST) {
+      setDateError('過去の日付は選択できません。')
+      setDate('')
+      setTime('')
+      return
+    }
     setDate(newDate)
     setDateError(null)
     if (newDate) {
@@ -517,7 +524,7 @@ function DateTimeStep({
       </div>
       <div style={{ display: 'flex', gap: '0.75rem' }}>
         <BackButton onClick={onBack} />
-        <PrimaryButton onClick={onNext} disabled={!date || !time || isClosedDay}>
+        <PrimaryButton onClick={onNext} disabled={!date || !time || isClosedDay || !!dateError}>
           次へ進む →
         </PrimaryButton>
       </div>
