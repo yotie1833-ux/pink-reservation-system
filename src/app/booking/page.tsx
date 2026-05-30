@@ -154,7 +154,7 @@ function StepTitle({ children }: { children: React.ReactNode }) {
       style={{
         color: PINK,
         textAlign: 'center',
-        fontSize: '1.05rem',
+        fontSize: '1.2rem',
         fontWeight: 'bold',
         marginBottom: '1.25rem',
       }}
@@ -444,7 +444,7 @@ function DateTimeStep({
             style={{
               color: '#666666',
               fontWeight: 'bold',
-              fontSize: '0.88rem',
+              fontSize: '1rem',
               display: 'block',
               marginBottom: '0.5rem',
             }}
@@ -460,8 +460,8 @@ function DateTimeStep({
               width: '100%',
               border: `2px solid ${dateError ? '#FC8181' : date ? PINK : '#BBBBBB'}`,
               borderRadius: '0.75rem',
-              padding: '0.65rem 0.75rem',
-              fontSize: '1rem',
+              padding: '1rem 0.75rem',
+              fontSize: '1.1rem',
               outline: 'none',
               color: '#333',
               boxSizing: 'border-box',
@@ -480,7 +480,7 @@ function DateTimeStep({
             style={{
               color: '#666666',
               fontWeight: 'bold',
-              fontSize: '0.88rem',
+              fontSize: '1rem',
               display: 'block',
               marginBottom: '0.5rem',
             }}
@@ -495,8 +495,8 @@ function DateTimeStep({
               width: '100%',
               border: `2px solid ${time ? PINK : '#BBBBBB'}`,
               borderRadius: '0.75rem',
-              padding: '0.65rem 0.75rem',
-              fontSize: '1rem',
+              padding: '1rem 0.75rem',
+              fontSize: '1.1rem',
               outline: 'none',
               color: time ? '#333333' : '#666666',
               background: isClosedDay ? '#F5F5F5' : 'white',
@@ -644,20 +644,7 @@ function ConfirmStep({
         ))}
       </div>
       </div>
-      <div
-        style={{
-          background: `${PINK}0D`,
-          border: `1px solid ${PINK}30`,
-          borderRadius: '0.75rem',
-          padding: '0.75rem 1rem',
-          marginBottom: '1.5rem',
-          textAlign: 'center',
-        }}
-      >
-        <p style={{ color: PINK, fontSize: '0.78rem', margin: 0, lineHeight: 1.6 }}>
-          ✨ 予約確定後、LINEにて詳細をお送りします
-        </p>
-      </div>
+
       {error && (
         <p style={{ color: '#e53e3e', fontSize: '0.82rem', textAlign: 'center', marginBottom: '0.75rem' }}>
           {error}
