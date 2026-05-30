@@ -530,6 +530,10 @@ function ConfirmStep({
   date,
   time,
   price,
+  customerName,
+  phoneNumber,
+  setCustomerName,
+  setPhoneNumber,
   onBack,
   onConfirm,
   loading,
@@ -564,6 +568,51 @@ function ConfirmStep({
     <Card>
       <StepTitle>予約内容を確認してください</StepTitle>
       <div style={{ paddingLeft: '1rem', paddingRight: '1rem', marginBottom: '1rem' }}>
+      {/* お名前・携帯番号 */}
+      <div style={{ paddingLeft: '1rem', paddingRight: '1rem', marginBottom: '1rem' }}>
+        <div style={{ marginBottom: '0.75rem' }}>
+          <label style={{ color: '#666666', fontWeight: 'bold', fontSize: '0.88rem', display: 'block', marginBottom: '0.4rem' }}>
+            👤 お名前
+          </label>
+          <input
+            type="text"
+            value={customerName}
+            onChange={(e) => setCustomerName(e.target.value)}
+            placeholder="例：田中 花子"
+            style={{
+              width: '100%',
+              border: `2px solid ${customerName ? '#dd488d' : '#BBBBBB'}`,
+              borderRadius: '0.75rem',
+              padding: '0.65rem 0.75rem',
+              fontSize: '1rem',
+              outline: 'none',
+              color: '#333',
+              boxSizing: 'border-box' as const,
+            }}
+          />
+        </div>
+        <div>
+          <label style={{ color: '#666666', fontWeight: 'bold', fontSize: '0.88rem', display: 'block', marginBottom: '0.4rem' }}>
+            📱 携帯番号
+          </label>
+          <input
+            type="tel"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            placeholder="例：090-1234-5678"
+            style={{
+              width: '100%',
+              border: `2px solid ${phoneNumber ? '#dd488d' : '#BBBBBB'}`,
+              borderRadius: '0.75rem',
+              padding: '0.65rem 0.75rem',
+              fontSize: '1rem',
+              outline: 'none',
+              color: '#333',
+              boxSizing: 'border-box' as const,
+            }}
+          />
+        </div>
+      </div>
       <div
         style={{
           border: `2px solid ${GOLD}`,
@@ -614,7 +663,7 @@ function ConfirmStep({
         <BackButton onClick={onBack} />
         <button
           onClick={onConfirm}
-          disabled={loading}
+          disabled={loading || !customerName || !phoneNumber}
           style={{
             flex: 2,
             background: loading ? '#E5E7EB' : `linear-gradient(135deg, ${PINK}, ${ACCENT_PINK})`,
@@ -716,6 +765,8 @@ export default function BookingPage() {
   const [completed, setCompleted] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [customerName, setCustomerName] = useState('')
+  const [phoneNumber, setPhoneNumber] = useState('')
   const [settings, setSettings] = useState<Settings>({
     opening_time: '10:00',
     closing_time: '20:00',
@@ -818,6 +869,8 @@ export default function BookingPage() {
       price,
       reservation_date: date,
       reservation_time: time,
+      customer_name: customerName,
+      phone_number: phoneNumber,
     }
     console.log('[Supabase] 送信データ:', payload)
 
@@ -897,6 +950,8 @@ export default function BookingPage() {
     setDuration(null)
     setDate('')
     setTime('')
+    setCustomerName('')
+    setPhoneNumber('')
     setCompleted(false)
     setError(null)
   }
