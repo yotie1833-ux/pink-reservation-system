@@ -125,7 +125,7 @@ function StepIndicator({ currentStep }: { currentStep: number }) {
   )
 }
 
-function Card({ children }: { children: React.ReactNode }) {
+function Card({ children, justify = 'space-between' }: { children: React.ReactNode; justify?: string }) {
   return (
     <div
       style={{
@@ -139,7 +139,7 @@ function Card({ children }: { children: React.ReactNode }) {
         height: 'calc(100vh - 185px)',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between',
+        justifyContent: justify,
         overflowY: 'auto',
       }}
     >
@@ -436,9 +436,9 @@ function DateTimeStep({
   }
 
   return (
-    <Card>
+    <Card justify="flex-start">
       <StepTitle>日時を選んでください</StepTitle>
-      <div style={{ paddingLeft: '1rem', paddingRight: '1rem' }}>
+      <div style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem', marginTop: '1rem' }}>
         <div style={{ marginBottom: '1rem' }}>
           <label
             style={{
