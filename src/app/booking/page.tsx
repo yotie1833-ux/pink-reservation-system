@@ -826,6 +826,15 @@ export default function BookingPage() {
       return
     }
 
+    // ── 過去日付チェック ──
+    const todayStr = new Date().toISOString().split('T')[0]
+    if (date < todayStr) {
+      setError('過去の日付は予約できません。別の日付をお選びください。')
+      setStep(3)
+      setLoading(false)
+      return
+    }
+
     // ── 定休日チェック ──
     const selectedDate = new Date(date)
     const dayOfWeek = DAY_NAMES[selectedDate.getDay()]
