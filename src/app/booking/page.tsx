@@ -284,7 +284,7 @@ function MenuStep({
           </button>
         ))}
       </div>
-      <div style={{ marginTop: 'auto', width: '100%' }}>
+      <div style={{ marginTop: 'auto', width: '100%', display: 'flex' }}>
         <PrimaryButton onClick={onNext} disabled={!menu}>
           次へ進む →
         </PrimaryButton>
