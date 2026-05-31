@@ -458,15 +458,17 @@ function DateTimeStep({
             onChange={(e) => handleDateChange(e.target.value)}
             style={{
               width: '100%',
-              border: `2px solid ${dateError ? '#FC8181' : date ? PINK : '#BBBBBB'}`,
-              borderRadius: '0.75rem',
+              border: `2px solid ${dateError ? '#FC8181' : date ? PINK : GOLD}`,
+              borderRadius: '1rem',
               padding: '1.5rem 1rem',
               fontSize: '1rem',
               outline: 'none',
               color: '#333',
+              background: date ? `${PINK}12` : 'white',
               boxSizing: 'border-box',
-              transition: 'border-color 0.2s',
+              transition: 'all 0.2s ease',
               textAlign: 'center',
+              WebkitAppearance: 'none',
             }}
           />
           {dateError && (
