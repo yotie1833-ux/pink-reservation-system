@@ -284,9 +284,11 @@ function MenuStep({
           </button>
         ))}
       </div>
-      <PrimaryButton onClick={onNext} disabled={!menu}>
-        次へ進む →
-      </PrimaryButton>
+      <div style={{ marginTop: 'auto' }}>
+        <PrimaryButton onClick={onNext} disabled={!menu}>
+          次へ進む →
+        </PrimaryButton>
+      </div>
     </Card>
   )
 }
