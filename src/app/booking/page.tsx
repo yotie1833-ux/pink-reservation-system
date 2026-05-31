@@ -250,10 +250,10 @@ function MenuStep({
             key={type}
             onClick={() => setMenu(type)}
             style={{
-              width: '280px',
+              width: '100%',
               border: `2px solid ${menu === type ? PINK : GOLD}`,
               borderRadius: '1rem',
-              padding: '1.5rem 1rem',
+              padding: '1rem 1rem',
               background: menu === type ? `${PINK}12` : 'white',
               cursor: 'pointer',
               textAlign: 'center',
@@ -268,8 +268,8 @@ function MenuStep({
             <span style={{ position: 'absolute', top: 7, right: 10, color: GOLD, fontSize: '0.65rem' }}>✦</span>
             <span style={{ position: 'absolute', bottom: 7, left: 10, color: GOLD, fontSize: '0.65rem' }}>✦</span>
             <span style={{ position: 'absolute', bottom: 7, right: 10, color: GOLD, fontSize: '0.65rem' }}>✦</span>
-            <div style={{ fontSize: '2.4rem', marginBottom: '0.5rem' }}>{icon}</div>
-            <div style={{ color: '#333333', fontWeight: 'bold', fontSize: '0.95rem' }}>{type}</div>
+            <div style={{ fontSize: '1.8rem', marginBottom: '0.4rem' }}>{icon}</div>
+            <div style={{ color: '#333333', fontWeight: 'bold', fontSize: '1rem' }}>{type}</div>
             <div
               style={{
                 color: '#666666',
