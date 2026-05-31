@@ -25,3 +25,16 @@ body {
     text-wrap: balance;
   }
 }
+
+/* iOSのdate inputの幅を制御 */
+input[type="date"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+input[type="date"]::-webkit-date-and-time-value {
+  text-align: center;
+  color: #333;
+}
