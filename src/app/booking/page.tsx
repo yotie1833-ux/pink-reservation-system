@@ -441,7 +441,7 @@ function DateTimeStep({
     <Card>
       <StepTitle>日時を選んでください</StepTitle>
       <div style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', paddingTop: '1.5rem' }}>
-        <div style={{ marginBottom: '1rem' }}>
+        <div style={{ marginBottom: '1rem', overflow: 'hidden' }}>
           <label
             style={{
               color: '#666666',
