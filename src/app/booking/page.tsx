@@ -494,7 +494,7 @@ function DateTimeStep({
             disabled={isClosedDay}
             style={{
               width: '100%',
-              border: `2px solid ${time ? PINK : '#BBBBBB'}`,
+              border: `2px solid ${time ? PINK : GOLD}`,
               borderRadius: '0.75rem',
               padding: '1.5rem 1rem',
               fontSize: '1rem',
