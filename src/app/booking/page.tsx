@@ -496,15 +496,17 @@ function DateTimeStep({
             style={{
               width: '100%',
               border: `2px solid ${time ? PINK : GOLD}`,
-              borderRadius: '0.75rem',
+              borderRadius: '1rem',
               padding: '1.5rem 1rem',
               fontSize: '1rem',
               outline: 'none',
               color: time ? '#333333' : '#666666',
-              background: isClosedDay ? '#F5F5F5' : 'white',
+              background: isClosedDay ? '#F5F5F5' : time ? `${PINK}12` : 'white',
               boxSizing: 'border-box',
-              transition: 'border-color 0.2s',
+              transition: 'all 0.2s ease',
               textAlign: 'center',
+              margin: 0,
+              WebkitAppearance: 'none',
             }}
           >
             <option value="">時間を選択してください</option>
