@@ -173,14 +173,14 @@ function DetailModal({ reservation, onClose, onDelete }: {
   onDelete: (id: string) => void
 }) {
   const rows = [
+    { label: '予約日', value: new Date(reservation.reservation_date + 'T00:00:00').toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' }) },
+    { label: '予約時間', value: reservation.reservation_time.slice(0, 5) },
+    { label: 'お名前', value: reservation.customer_name ?? '未入力' },
     { label: 'メニュー', value: reservation.menu_type },
     { label: 'コース', value: `${reservation.duration}分` },
-    { label: '料金', value: `¥${reservation.price.toLocaleString()}` },
-    { label: '予約日', value: new Date(reservation.reservation_date + 'T00:00:00').toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' }) },
-    { label: '予約時間', value: reservation.reservation_time },
-    { label: 'LINE ID', value: reservation.customer_line_id ?? '未登録' },
+    { label: '電話番号', value: reservation.phone_number ?? '未入力' },
     { label: 'ステータス', value: <StatusBadge status={reservation.status} /> },
-    { label: '登録日時', value: new Date(reservation.created_at).toLocaleString('ja-JP') },
+    { label: '登録日時', value: new Date(reservation.created_at).toLocaleString('ja-JP', { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }) },
   ]
 
   return (
@@ -615,7 +615,7 @@ export default function AdminPage() {
             <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '640px' }}>
               <thead>
                 <tr style={{ background: `linear-gradient(135deg, ${PINK}, ${ACCENT_PINK})` }}>
-                  {['予約日', '時間', 'お名前', '電話番号', 'メニュー', 'コース', '料金', 'ステータス', '操作'].map((h) => (
+                  {['予約日', '時間', 'お名前', 'メニュー', 'コース', '料金', 'ステータス', '操作'].map((h) => (
                     <th key={h} style={{
                       padding: '0.75rem 1rem', color: 'white', fontSize: '0.8rem',
                       fontWeight: 700, textAlign: 'left', whiteSpace: 'nowrap',
@@ -641,9 +641,6 @@ export default function AdminPage() {
                     </td>
                     <td style={{ padding: '0.7rem 1rem', fontSize: '0.85rem', color: '#333' }}>
                       {r.customer_name ?? '—'}
-                    </td>
-                    <td style={{ padding: '0.7rem 1rem', fontSize: '0.85rem', color: '#333' }}>
-                      {r.phone_number ?? '—'}
                     </td>
                     <td style={{ padding: '0.7rem 1rem', fontSize: '0.85rem', color: PINK, fontWeight: 600 }}>
                       {r.menu_type}
