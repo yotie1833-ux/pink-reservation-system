@@ -36,7 +36,7 @@ function buildCustomerMessage(payload: NotificationPayload): string {
 }
 
 function buildOwnerMessage(payload: NotificationPayload): string {
-  const { menuType, duration, price, date, time, customerName } = payload
+  const { menuType, duration, date, time, customerName } = payload
   const dateObj = new Date(date + 'T00:00:00')
   const dayNames = ['日', '月', '火', '水', '木', '金', '土']
   const formattedDate = `${dateObj.getFullYear()}年${dateObj.getMonth() + 1}月${dateObj.getDate()}日（${dayNames[dateObj.getDay()]}）`
@@ -44,10 +44,8 @@ function buildOwnerMessage(payload: NotificationPayload): string {
     '【新規予約が入りました！】',
     '',
     `■ お客様名：${customerName || '未入力'}`,
-    `■ 電話番号：${payload.phoneNumber || '未入力'}`,
     `■ メニュー：${menuType}`,
     `■ コース　：${duration}分コース`,
-    `■ 料金　　：¥${price.toLocaleString()}`,
     `■ 予約日　：${formattedDate}`,
     `■ 予約時間：${time}`,
   ].join('\n')

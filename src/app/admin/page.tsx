@@ -428,8 +428,8 @@ export default function AdminPage() {
     const { data, error: dbError } = await supabase
       .from('reservations')
       .select('*')
-      .order('reservation_date', { ascending: false })
-      .order('reservation_time', { ascending: false })
+      .order('reservation_date', { ascending: true })
+      .order('reservation_time', { ascending: true })
     console.log('[fetch] エラー:', dbError)
     console.log('[fetch] データ:', data)
     if (data && data.length > 0) {
