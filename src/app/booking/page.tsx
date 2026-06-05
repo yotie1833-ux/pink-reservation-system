@@ -635,9 +635,9 @@ function ConfirmStep({
             style={{
               display: 'flex',
               alignItems: 'center',
-              padding: '0.3rem 1.25rem',
+              padding: '0.3rem 0.75rem',
               background: i % 2 === 0 ? 'white' : `${PINK}05`,
-              gap: '1.5rem',
+              gap: '0.75rem',
             }}
           >
             <div style={{ flexShrink: 0, color: '#666666', fontSize: '0.82rem', fontWeight: 600, width: '6rem' }}>
