@@ -7,17 +7,15 @@ import { supabase } from '@/lib/supabase'
 type MenuType = '対面占い'
 type Duration = 15 | 30 | 60
 
-type Settings = {
+type WorkSchedule = {
+  work_date: string
   opening_time: string
   closing_time: string
-  closed_days: string[]
 }
 
 const PRICES: Record<MenuType, Record<Duration, number>> = {
   '対面占い': { 15: 1500, 30: 3000, 60: 5000 },
 }
-
-const DAY_NAMES = ['日曜日', '月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日']
 
 const toMinutes = (t: string) => {
   const [h, m] = t.split(':').map(Number)
@@ -392,7 +390,7 @@ function DateTimeStep({
   setTime,
   onBack,
   onNext,
-  settings,
+  workSchedules,
   duration,
 }: {
   date: string
@@ -401,15 +399,14 @@ function DateTimeStep({
   setTime: (t: string) => void
   onBack: () => void
   onNext: () => void
-  settings: Settings
+  workSchedules: Record<string, WorkSchedule>
   duration: number
 }) {
   const today = new Date(new Date().toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' })).toISOString().split('T')[0]
   const [dateError, setDateError] = useState<string | null>(null)
-  const timeSlots = generateTimeSlots(settings.opening_time, settings.closing_time, duration)
-  const isClosedDay = date
-    ? settings.closed_days.includes(DAY_NAMES[new Date(date + 'T00:00:00').getDay()])
-    : false
+  const schedule = date ? workSchedules[date] : null
+  const timeSlots = schedule ? generateTimeSlots(schedule.opening_time, schedule.closing_time, duration) : []
+  const isUnavailable = date ? !workSchedules[date] : false
 
   const handleDateChange = (newDate: string) => {
     const now = new Date()
@@ -422,17 +419,10 @@ function DateTimeStep({
       return
     }
     setDate(newDate)
+    setTime('')
     setDateError(null)
-    if (newDate) {
-      const dayName = DAY_NAMES[new Date(newDate + 'T00:00:00').getDay()]
-      console.log('[予約] 選択日付:', newDate)
-      console.log('[予約] 曜日:', dayName)
-      console.log('[予約] 定休日リスト:', settings.closed_days)
-      if (settings.closed_days && settings.closed_days.includes(dayName)) {
-        console.log('[予約] 定休日チェック: 定休日です')
-        setDateError(`${dayName}は定休日です。\n別の日付をお選びください。`)
-        setTime('')
-      }
+    if (newDate && !workSchedules[newDate]) {
+      setDateError('この日は予約を受け付けていません。\n別の日付をお選びください。')
     }
   }
 
@@ -459,19 +449,39 @@ function DateTimeStep({
             onChange={(e) => handleDateChange(e.target.value)}
             style={{
               width: '100%',
-              border: `2px solid ${dateError ? '#FC8181' : date ? PINK : GOLD}`,
+              border: `2px solid ${dateError ? '#FC8181' : date && !isUnavailable ? PINK : GOLD}`,
               borderRadius: '1rem',
               padding: '1.5rem 1rem',
               fontSize: '1rem',
               outline: 'none',
               color: '#333',
-              background: date ? `${PINK}12` : 'white',
+              background: date && !isUnavailable ? `${PINK}12` : 'white',
               boxSizing: 'border-box',
               transition: 'all 0.2s ease',
               textAlign: 'center',
               margin: 0,
             }}
           />
+          {Object.keys(workSchedules).length > 0 && (
+            <div style={{ marginTop: '0.5rem', display: 'flex', flexWrap: 'wrap', gap: '0.3rem' }}>
+              {Object.values(workSchedules).sort((a, b) => a.work_date.localeCompare(b.work_date)).slice(0, 6).map((s) => {
+                const d = new Date(s.work_date + 'T00:00:00')
+                const dayNames2 = ['日','月','火','水','木','金','土']
+                return (
+                  <button key={s.work_date} onClick={() => handleDateChange(s.work_date)}
+                    style={{
+                      fontSize: '0.72rem', padding: '0.25rem 0.6rem', borderRadius: '9999px',
+                      border: `1px solid ${date === s.work_date ? PINK : GOLD}`,
+                      background: date === s.work_date ? `${PINK}15` : 'white',
+                      color: date === s.work_date ? PINK : '#555',
+                      cursor: 'pointer', fontWeight: date === s.work_date ? 700 : 400,
+                    }}>
+                    {d.getMonth()+1}/{d.getDate()}({dayNames2[d.getDay()]})
+                  </button>
+                )
+              })}
+            </div>
+          )}
           {dateError && (
             <p style={{ color: '#e53e3e', fontSize: '0.78rem', marginTop: '0.4rem', textAlign: 'center', whiteSpace: 'pre-line' }}>
               {dateError}
@@ -493,7 +503,7 @@ function DateTimeStep({
           <select
             value={time}
             onChange={(e) => setTime(e.target.value)}
-            disabled={isClosedDay}
+            disabled={isUnavailable || !date}
             style={{
               width: '100%',
               border: `2px solid ${time ? PINK : GOLD}`,
@@ -502,7 +512,7 @@ function DateTimeStep({
               fontSize: '1rem',
               outline: 'none',
               color: time ? '#333333' : '#666666',
-              background: isClosedDay ? '#F5F5F5' : time ? `${PINK}12` : 'white',
+              background: isUnavailable || !date ? '#F5F5F5' : time ? `${PINK}12` : 'white',
               boxSizing: 'border-box',
               transition: 'all 0.2s ease',
               textAlign: 'center',
@@ -521,7 +531,7 @@ function DateTimeStep({
       </div>
       <div style={{ display: 'flex', gap: '0.75rem' }}>
         <BackButton onClick={onBack} />
-        <PrimaryButton onClick={onNext} disabled={!date || !time || isClosedDay || !!dateError}>
+        <PrimaryButton onClick={onNext} disabled={!date || !time || isUnavailable || !!dateError}>
           次へ進む →
         </PrimaryButton>
       </div>
@@ -764,11 +774,7 @@ export default function BookingPage() {
   const [customerName, setCustomerName] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
   const [lineUserId, setLineUserId] = useState<string | null>(null)
-  const [settings, setSettings] = useState<Settings>({
-    opening_time: '10:00',
-    closing_time: '20:00',
-    closed_days: [],
-  })
+  const [workSchedules, setWorkSchedules] = useState<Record<string, WorkSchedule>>({})
 
   useEffect(() => {
     const initLiff = async () => {
@@ -788,23 +794,22 @@ export default function BookingPage() {
   }, [])
 
   useEffect(() => {
-    const fetchSettings = async () => {
+    const fetchWorkSchedules = async () => {
+      const today = new Date().toISOString().split('T')[0]
       const { data, error } = await supabase
-        .from('settings')
+        .from('work_schedules')
         .select('*')
-        .eq('id', 1)
-        .single()
-
+        .gte('work_date', today)
       if (data) {
-        console.log('[設定] 営業時間:', data)
-        setSettings(data)
+        const map: Record<string, WorkSchedule> = {}
+        data.forEach((r: WorkSchedule) => { map[r.work_date] = r })
+        setWorkSchedules(map)
       }
       if (error) {
-        console.error('[設定] 取得エラー:', error.message)
+        console.error('[出勤日] 取得エラー:', error.message)
       }
     }
-
-    fetchSettings()
+    fetchWorkSchedules()
   }, [])
 
   const price = menu && duration ? PRICES[menu][duration] : 0
@@ -826,22 +831,17 @@ export default function BookingPage() {
       return
     }
 
-    // ── 定休日チェック ──
-    const selectedDate = new Date(date)
-    const dayOfWeek = DAY_NAMES[selectedDate.getDay()]
-    console.log('[予約] 選択日付:', date)
-    console.log('[予約] 曜日:', dayOfWeek)
-    console.log('[予約] 定休日リスト:', settings.closed_days)
-    if (settings.closed_days && settings.closed_days.includes(dayOfWeek)) {
-      console.log('[予約] 定休日チェック: 定休日です')
-      setError('申し訳ございません。選択された日は定休日です。別の日付をお選びください。')
+    // ── 出勤日チェック ──
+    if (!workSchedules[date]) {
+      setError('申し訳ございません。選択された日は予約を受け付けていません。別の日付をお選びください。')
       setStep(3)
       return
     }
 
     // ── 営業時間チェック ──
-    if (time < settings.opening_time || time > settings.closing_time) {
-      setError(`営業時間は${settings.opening_time}〜${settings.closing_time}です。別の時間をお選びください。`)
+    const ws = workSchedules[date]
+    if (time < ws.opening_time || time > ws.closing_time) {
+      setError(`この日の受付時間は${ws.opening_time}〜${ws.closing_time}です。別の時間をお選びください。`)
       setStep(3)
       return
     }
@@ -1037,7 +1037,7 @@ export default function BookingPage() {
               setTime={setTime}
               onBack={() => setStep(2)}
               onNext={() => setStep(4)}
-              settings={settings}
+              workSchedules={workSchedules}
               duration={duration ?? 30}
             />
           )}
