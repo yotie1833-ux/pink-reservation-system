@@ -234,8 +234,7 @@ function MenuStep({
   onNext: () => void
 }) {
   const options = [
-    { type: '対面占い' as MenuType, icon: '🌙', desc: '直接お会いして\nカード占いします' },
-    { type: '電話占い' as MenuType, icon: '📱', desc: 'お電話で\nカード占いします' },
+    { type: '対面占い' as MenuType, icon: '🌙', desc: '直接お会いしてカード占いします\n\n📍 開運サロン HiRAKU\n宮崎市橘通東３丁目1-11\nアゲインビル１階（ホテルメリージュ隣）' },
   ]
 
   return (
