@@ -640,10 +640,10 @@ function ConfirmStep({
               gap: '0.75rem',
             }}
           >
-            <div style={{ flexShrink: 0, color: '#666666', fontSize: '0.82rem', fontWeight: 600, width: '6rem' }}>
-              {icon}&nbsp;&nbsp;{label}
+            <div style={{ flexShrink: 0, color: '#666666', fontSize: '0.82rem', fontWeight: 600, width: '4.5rem' }}>
+              {icon}&nbsp;{label}
             </div>
-            <div style={{ flex: 1, color: valueColor, fontWeight: 'bold', fontSize: '0.92rem', textAlign: 'left', whiteSpace: 'nowrap' }}>{value}</div>
+            <div style={{ flex: 1, color: valueColor, fontWeight: 'bold', fontSize: '0.92rem', textAlign: 'left' }}>{value}</div>
           </div>
         ))}
       </div>
