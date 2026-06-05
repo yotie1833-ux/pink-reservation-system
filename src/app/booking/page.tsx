@@ -402,7 +402,6 @@ function DateTimeStep({
   workSchedules: Record<string, WorkSchedule>
   duration: number
 }) {
-  const today = new Date(new Date().toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' })).toISOString().split('T')[0]
   const [dateError, setDateError] = useState<string | null>(null)
   const schedule = date ? workSchedules[date] : null
   const timeSlots = schedule ? generateTimeSlots(schedule.opening_time, schedule.closing_time, duration) : []
@@ -442,26 +441,23 @@ function DateTimeStep({
           >
             📅 日付
           </label>
-          <input
-            type="date"
-            value={date}
-            min={today}
-            onChange={(e) => handleDateChange(e.target.value)}
-            style={{
+          {date && (
+            <div style={{
               width: '100%',
-              border: `2px solid ${dateError ? '#FC8181' : date && !isUnavailable ? PINK : GOLD}`,
+              border: `2px solid ${dateError ? '#FC8181' : PINK}`,
               borderRadius: '1rem',
-              padding: '1.5rem 1rem',
+              padding: '1rem',
               fontSize: '1rem',
-              outline: 'none',
               color: '#333',
-              background: date && !isUnavailable ? `${PINK}12` : 'white',
-              boxSizing: 'border-box',
-              transition: 'all 0.2s ease',
-              textAlign: 'center',
-              margin: 0,
-            }}
-          />
+              background: `${PINK}12`,
+              boxSizing: 'border-box' as const,
+              textAlign: 'center' as const,
+              marginBottom: '0.5rem',
+              fontWeight: 'bold',
+            }}>
+              {new Date(date + 'T00:00:00').toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' })}
+            </div>
+          )}
           {Object.keys(workSchedules).length > 0 && (
             <div style={{ marginTop: '0.5rem', display: 'flex', flexWrap: 'wrap', gap: '0.3rem' }}>
               {Object.values(workSchedules).sort((a, b) => a.work_date.localeCompare(b.work_date)).map((s) => {
@@ -540,7 +536,6 @@ function DateTimeStep({
 }
 
 function ConfirmStep({
-  menu,
   duration,
   date,
   time,
@@ -554,7 +549,6 @@ function ConfirmStep({
   loading,
   error,
 }: {
-  menu: MenuType
   duration: Duration
   date: string
   time: string
@@ -568,15 +562,11 @@ function ConfirmStep({
   setCustomerName: (v: string) => void
   setPhoneNumber: (v: string) => void
 }) {
-  const formattedDate = new Date(date + 'T00:00:00').toLocaleDateString('ja-JP', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    weekday: 'short',
-  })
+  const dateObj2 = new Date(date + 'T00:00:00')
+  const dayNames2 = ['日','月','火','水','木','金','土']
+  const formattedDate = `${dateObj2.getFullYear()}年${dateObj2.getMonth()+1}月${dateObj2.getDate()}日（${dayNames2[dateObj2.getDay()]}）`
 
   const rows = [
-    { icon: menu === '対面占い' ? '🌙' : '📱', label: '占いの種類', value: menu, valueColor: '#333333' },
     { icon: '⏱', label: 'コース', value: `${duration}分コース`, valueColor: '#333333' },
     { icon: '💰', label: '料金', value: `¥${price.toLocaleString()}`, valueColor: ACCENT_PINK },
     { icon: '📅', label: '日付', value: formattedDate, valueColor: '#333333' },
@@ -654,7 +644,7 @@ function ConfirmStep({
             <div style={{ flexShrink: 0, color: '#666666', fontSize: '0.82rem', fontWeight: 600, width: '6rem' }}>
               {icon}&nbsp;&nbsp;{label}
             </div>
-            <div style={{ flex: 1, color: valueColor, fontWeight: 'bold', fontSize: '0.92rem', textAlign: 'left' }}>{value}</div>
+            <div style={{ flex: 1, color: valueColor, fontWeight: 'bold', fontSize: '0.92rem', textAlign: 'left', whiteSpace: 'nowrap' }}>{value}</div>
           </div>
         ))}
       </div>
@@ -1043,7 +1033,6 @@ export default function BookingPage() {
           )}
           {step === 4 && menu && duration && (
             <ConfirmStep
-              menu={menu}
               duration={duration}
               date={date}
               time={time}
