@@ -464,7 +464,7 @@ function DateTimeStep({
           />
           {Object.keys(workSchedules).length > 0 && (
             <div style={{ marginTop: '0.5rem', display: 'flex', flexWrap: 'wrap', gap: '0.3rem' }}>
-              {Object.values(workSchedules).sort((a, b) => a.work_date.localeCompare(b.work_date)).slice(0, 6).map((s) => {
+              {Object.values(workSchedules).sort((a, b) => a.work_date.localeCompare(b.work_date)).map((s) => {
                 const d = new Date(s.work_date + 'T00:00:00')
                 const dayNames2 = ['日','月','火','水','木','金','土']
                 return (
