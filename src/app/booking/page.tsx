@@ -627,7 +627,7 @@ function ConfirmStep({
           borderRadius: '1rem',
           overflow: 'hidden',
           boxShadow: '0 2px 6px rgba(0,0,0,0.05)',
-          marginTop: '1.5rem',
+          marginTop: '2.5rem',
         }}
       >
         {rows.map(({ icon, label, value, valueColor }, i) => (
