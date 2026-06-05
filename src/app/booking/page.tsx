@@ -575,9 +575,9 @@ function ConfirmStep({
   return (
     <Card>
       <StepTitle>予約内容を確認してください</StepTitle>
-      <div style={{ paddingLeft: '1rem', paddingRight: '1rem', marginBottom: '1rem' }}>
+      <div style={{ paddingLeft: '1rem', paddingRight: '1rem', marginBottom: '0.25rem' }}>
       {/* お名前・携帯番号 */}
-      <div style={{ paddingLeft: '1rem', paddingRight: '1rem', marginBottom: '1rem' }}>
+      <div style={{ paddingLeft: '1rem', paddingRight: '1rem', marginBottom: '0.5rem' }}>
         <div style={{ marginBottom: '0.75rem' }}>
           <label style={{ color: '#666666', fontWeight: 'bold', fontSize: '1.05rem', display: 'block', marginBottom: '0.5rem' }}>
             👤 お名前
