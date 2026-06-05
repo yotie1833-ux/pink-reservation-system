@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import liff from '@line/liff'
 import { supabase } from '@/lib/supabase'
 
-type MenuType = '対面占い' | '電話占い'
+type MenuType = '対面占い'
 type Duration = 15 | 30 | 60
 
 type Settings = {
@@ -15,7 +15,6 @@ type Settings = {
 
 const PRICES: Record<MenuType, Record<Duration, number>> = {
   '対面占い': { 15: 1500, 30: 3000, 60: 5000 },
-  '電話占い': { 15: 1250, 30: 2500, 60: 4000 },
 }
 
 const DAY_NAMES = ['日曜日', '月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日']
@@ -154,7 +153,7 @@ function StepTitle({ children }: { children: React.ReactNode }) {
       style={{
         color: PINK,
         textAlign: 'center',
-        fontSize: '1.2rem',
+        fontSize: '1.4rem',
         fontWeight: 'bold',
         marginBottom: '1.25rem',
       }}
@@ -273,10 +272,10 @@ function MenuStep({
             <div
               style={{
                 color: '#666666',
-                fontSize: '0.72rem',
+                fontSize: '0.85rem',
                 marginTop: '0.35rem',
                 whiteSpace: 'pre-line',
-                lineHeight: 1.5,
+                lineHeight: 1.7,
               }}
             >
               {desc}
@@ -373,7 +372,7 @@ function DurationStep({
           lineHeight: 1.6,
         }}
       >
-        ※延長をご希望の場合は15分¥1,000〜承ります
+        ※延長をご希望の場合は10分¥1,000〜承ります
         <br />（当日ご相談ください）
       </p>
       <div style={{ display: 'flex', gap: '0.75rem' }}>
