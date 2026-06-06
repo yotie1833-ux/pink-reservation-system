@@ -27,7 +27,7 @@ function buildCustomerMessage(payload: NotificationPayload): string {
     `■ 予約日　：${formattedDate}`,
     `■ 予約時間：${time}`,
     '',
-    '📍 開運サロン HiRAKU',
+    '【場所】開運サロン HiRAKU',
     '宮崎市橘通東３丁目1-11',
     'アゲインビル１階（ホテルメリージュ隣）',
     '',
