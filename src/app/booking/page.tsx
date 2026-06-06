@@ -405,6 +405,37 @@ function DateTimeStep({
   const schedule = date ? workSchedules[date] : null
   const timeSlots = schedule ? generateTimeSlots(schedule.opening_time, schedule.closing_time, duration) : []
   const isUnavailable = date ? !workSchedules[date] : false
+  const [timeError, setTimeError] = useState<string | null>(null)
+  const [checking, setChecking] = useState(false)
+
+  const handleNext = async () => {
+    setChecking(true)
+    setTimeError(null)
+    const { data: existing, error } = await supabase
+      .from('reservations')
+      .select('reservation_time, duration, status')
+      .eq('reservation_date', date)
+      .neq('status', 'cancelled')
+    if (error) {
+      setTimeError('予約状況の確認に失敗しました。もう一度お試しください。')
+      setChecking(false)
+      return
+    }
+    const toMin = (t: string) => { const [h, m] = t.split(':').map(Number); return h * 60 + m }
+    const selectedStart = toMin(time)
+    const selectedEnd = selectedStart + duration
+    const isConflict = (existing ?? []).some((r) => {
+      const existStart = toMin(r.reservation_time)
+      const existEnd = existStart + r.duration
+      return existStart < selectedEnd && existEnd > selectedStart
+    })
+    setChecking(false)
+    if (isConflict) {
+      setTimeError('この時間帯は既に予約が入っています。別の時間をお選びください。')
+      return
+    }
+    onNext()
+  }
 
   const handleDateChange = (newDate: string) => {
     const now = new Date()
@@ -526,8 +557,13 @@ function DateTimeStep({
       </div>
       <div style={{ display: 'flex', gap: '0.75rem' }}>
         <BackButton onClick={onBack} />
-        <PrimaryButton onClick={onNext} disabled={!date || !time || isUnavailable || !!dateError}>
-          次へ進む →
+        {timeError && (
+          <p style={{ color: '#e53e3e', fontSize: '0.78rem', textAlign: 'center', marginBottom: '0.5rem', whiteSpace: 'pre-line' }}>
+            {timeError}
+          </p>
+        )}
+        <PrimaryButton onClick={handleNext} disabled={!date || !time || isUnavailable || !!dateError || checking}>
+          {checking ? '確認中...' : '次へ進む →'}
         </PrimaryButton>
       </div>
     </Card>
