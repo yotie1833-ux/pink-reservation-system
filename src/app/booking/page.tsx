@@ -830,8 +830,10 @@ export default function BookingPage() {
 
     // ── 営業時間チェック ──
     const ws = workSchedules[date]
-    if (time < ws.opening_time || time > ws.closing_time) {
-      setError(`この日の受付時間は${ws.opening_time}〜${ws.closing_time}です。別の時間をお選びください。`)
+    const openTime = ws.opening_time.slice(0, 5)
+    const closeTime = ws.closing_time.slice(0, 5)
+    if (time < openTime || time > closeTime) {
+      setError(`この日の受付時間は${openTime}〜${closeTime}です。別の時間をお選びください。`)
       setStep(3)
       return
     }
