@@ -816,7 +816,6 @@ export default function BookingPage() {
     const todayStr = new Date().toISOString().split('T')[0]
     if (date < todayStr) {
       setError('過去の日付は予約できません。別の日付をお選びください。')
-      setStep(3)
       setLoading(false)
       return
     }
@@ -824,7 +823,6 @@ export default function BookingPage() {
     // ── 出勤日チェック ──
     if (!workSchedules[date]) {
       setError('申し訳ございません。選択された日は予約を受け付けていません。別の日付をお選びください。')
-      setStep(3)
       return
     }
 
@@ -834,7 +832,6 @@ export default function BookingPage() {
     const closeTime = ws.closing_time.slice(0, 5)
     if (time < openTime || time > closeTime) {
       setError(`この日の受付時間は${openTime}〜${closeTime}です。別の時間をお選びください。`)
-      setStep(3)
       return
     }
 
@@ -873,7 +870,6 @@ export default function BookingPage() {
     if (isConflict) {
       setLoading(false)
       setError('申し訳ございません。選択された時間は既に予約が入っています。別の時間をお選びください。')
-      setStep(3)
       return
     }
 
