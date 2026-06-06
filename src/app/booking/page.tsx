@@ -557,11 +557,13 @@ function DateTimeStep({
       </div>
       <div style={{ display: 'flex', gap: '0.75rem' }}>
         <BackButton onClick={onBack} />
+        </div>
         {timeError && (
-          <p style={{ color: '#e53e3e', fontSize: '0.78rem', textAlign: 'center', marginBottom: '0.5rem', whiteSpace: 'pre-line' }}>
+          <p style={{ color: '#e53e3e', fontSize: '0.78rem', textAlign: 'center', margin: '0.5rem 0', whiteSpace: 'pre-line' }}>
             {timeError}
           </p>
         )}
+        <div style={{ display: 'flex', gap: '0.75rem' }}>
         <PrimaryButton onClick={handleNext} disabled={!date || !time || isUnavailable || !!dateError || checking}>
           {checking ? '確認中...' : '次へ進む →'}
         </PrimaryButton>
