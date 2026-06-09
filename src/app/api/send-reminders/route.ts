@@ -17,7 +17,10 @@ export async function GET() {
   const day = String(tomorrow.getUTCDate()).padStart(2, '0')
   const tomorrowStr = `${year}-${month}-${day}`
 
-  console.log('[Reminder] 対象日付:', tomorrowStr)
+  console.log('[Reminder] ===== リマインダー実行開始 =====')
+  console.log('[Reminder] 現在時刻(UTC):', now.toISOString())
+  console.log('[Reminder] 現在時刻(JST):', jst.toISOString())
+  console.log('[Reminder] 対象日付(明日JST):', tomorrowStr)
 
   // 明日の予約をSupabaseから取得
   const { data: reservations, error } = await supabase
@@ -32,6 +35,11 @@ export async function GET() {
   }
 
   console.log('[Reminder] 対象予約件数:', reservations?.length ?? 0)
+  if (reservations && reservations.length > 0) {
+    reservations.forEach((r, i) => {
+      console.log(`[Reminder] 予約[${i + 1}] 名前:${r.customer_name} 時間:${r.reservation_time} LINE_ID:${r.customer_line_id ?? '未取得'}`)
+    })
+  }
 
   const dayNames = ['日', '月', '火', '水', '木', '金', '土']
   const dateObj = new Date(tomorrowStr + 'T00:00:00')
@@ -82,12 +90,17 @@ export async function GET() {
     })
 
     const resText = await res.text()
-    console.log(`[Reminder] ${r.customer_name} → status:${res.status}`, resText)
+    console.log(`[Reminder] LINE送信 ${r.customer_name}(${r.customer_line_id}) → HTTP:${res.status} レスポンス:${resText}`)
 
     if (res.ok) {
+      console.log(`[Reminder] ✓ 送信成功: ${r.customer_name}`)
       successCount++
+    } else {
+      console.error(`[Reminder] ✗ 送信失敗: ${r.customer_name} status:${res.status} body:${resText}`)
     }
   }
+
+  console.log(`[Reminder] ===== 完了 成功:${successCount} スキップ:${skipCount} 合計:${reservations?.length ?? 0} =====`)
 
   return NextResponse.json({
     success: true,
