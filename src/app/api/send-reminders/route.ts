@@ -11,9 +11,11 @@ export async function GET() {
   // 日本時間で「明日」の日付を取得
   const now = new Date()
   const jst = new Date(now.getTime() + 9 * 60 * 60 * 1000)
-  const tomorrow = new Date(jst)
-  tomorrow.setDate(tomorrow.getDate() + 1)
-  const tomorrowStr = tomorrow.toISOString().split('T')[0]
+  const tomorrow = new Date(jst.getTime() + 24 * 60 * 60 * 1000)
+  const year = tomorrow.getUTCFullYear()
+  const month = String(tomorrow.getUTCMonth() + 1).padStart(2, '0')
+  const day = String(tomorrow.getUTCDate()).padStart(2, '0')
+  const tomorrowStr = `${year}-${month}-${day}`
 
   console.log('[Reminder] 対象日付:', tomorrowStr)
 
