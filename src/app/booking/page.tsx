@@ -51,15 +51,11 @@ const GOLD = '#D4AF37'
 function Header() {
   return (
     <div style={{ textAlign: 'center', marginBottom: '0.5rem' }}>
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.75rem', marginBottom: '0.25rem' }}>
-        <span style={{ fontSize: '1.8rem', display: 'inline-block', animation: 'spin 6s linear infinite' }}>🌙</span>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '0.25rem' }}>
         <h1 style={{ color: PINK, fontSize: '1.75rem', fontWeight: '700', letterSpacing: '0.04em', margin: 0 }}>
           Pink占い予約
         </h1>
-        <span style={{ fontSize: '1.8rem', display: 'inline-block', animation: 'spin 4s linear infinite reverse' }}>☀️</span>
       </div>
-
-
     </div>
   )
 }
@@ -239,7 +235,7 @@ function MenuStep({
 
   return (
     <Card>
-      <StepTitle>占いの種類を選んでください</StepTitle>
+      <StepTitle>対面占いの予約を行います</StepTitle>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
         {options.map(({ type, icon, desc }) => (
           <button
@@ -423,10 +419,10 @@ function DateTimeStep({
     }
     const toMin = (t: string) => { const [h, m] = t.split(':').map(Number); return h * 60 + m }
     const selectedStart = toMin(time)
-    const selectedEnd = selectedStart + duration
+    const selectedEnd = selectedStart + duration + 30
     const isConflict = (existing ?? []).some((r) => {
       const existStart = toMin(r.reservation_time)
-      const existEnd = existStart + r.duration
+      const existEnd = existStart + r.duration + 30
       return existStart < selectedEnd && existEnd > selectedStart
     })
     setChecking(false)
@@ -600,12 +596,13 @@ function ConfirmStep({
   const dateObj2 = new Date(date + 'T00:00:00')
   const dayNames2 = ['日','月','火','水','木','金','土']
   const formattedDate = `${dateObj2.getFullYear()}年${dateObj2.getMonth()+1}月${dateObj2.getDate()}日（${dayNames2[dateObj2.getDay()]}）`
+  const endTime = fromMinutes(toMinutes(time) + duration)
 
   const rows = [
     { icon: '⏱', label: 'コース', value: `${duration}分コース`, valueColor: '#333333' },
     { icon: '💰', label: '料金', value: `¥${price.toLocaleString()}`, valueColor: ACCENT_PINK },
     { icon: '📅', label: '日付', value: formattedDate, valueColor: '#333333' },
-    { icon: '🕐', label: '時間', value: time, valueColor: '#333333' },
+    { icon: '🕐', label: '時間', value: `${time}〜${endTime}`, valueColor: '#333333' },
   ]
 
   return (
@@ -747,7 +744,7 @@ function CompletedScreen({ onReset }: { onReset: () => void }) {
         <p style={{ color: '#666666', fontSize: '0.85rem', marginBottom: '1.5rem', lineHeight: 1.6 }}>
           ご予約ありがとうございます。
           <br />
-          当日を楽しみにお待ちください。
+          当日、お会いできるのを楽しみにしております。
         </p>
         <div
           style={{
@@ -790,7 +787,7 @@ function CompletedScreen({ onReset }: { onReset: () => void }) {
 
 export default function BookingPage() {
   const [step, setStep] = useState(1)
-  const [menu, setMenu] = useState<MenuType | null>(null)
+  const [menu, setMenu] = useState<MenuType | null>('対面占い')
   const [duration, setDuration] = useState<Duration | null>(null)
   const [date, setDate] = useState('')
   const [time, setTime] = useState('')
@@ -892,12 +889,11 @@ export default function BookingPage() {
     }
 
     const selectedStart = toMinutes(time)
-    const selectedEnd = selectedStart + duration
+    const selectedEnd = selectedStart + duration + 30
 
     const isConflict = (existing ?? []).some((r) => {
       const existStart = toMinutes(r.reservation_time)
-      const existEnd = existStart + r.duration
-      // 時間帯が重なる場合: 既存の開始 < 選択の終了 かつ 既存の終了 > 選択の開始
+      const existEnd = existStart + r.duration + 30
       return existStart < selectedEnd && existEnd > selectedStart
     })
 
@@ -1017,10 +1013,6 @@ export default function BookingPage() {
   return (
     <>
       <style>{`
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
         @keyframes pulse {
           0%, 100% { opacity: 1; transform: scale(1); }
           50% { opacity: 0.5; transform: scale(0.85); }
