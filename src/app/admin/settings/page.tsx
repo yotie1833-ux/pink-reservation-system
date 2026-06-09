@@ -154,10 +154,15 @@ export default function SettingsPage() {
 
   useEffect(() => {
     const fetch = async () => {
+      const todayStr = new Date().toISOString().split('T')[0]
       const { data } = await supabase.from('work_schedules').select('*')
       if (data) {
         const map: Record<string, WorkSchedule> = {}
-        data.forEach((r: WorkSchedule) => { map[r.work_date] = r })
+        data.forEach((r: WorkSchedule) => {
+          if (r.work_date >= todayStr) {
+            map[r.work_date] = r
+          }
+        })
         setSchedules(map)
       }
       setLoading(false)
@@ -196,7 +201,8 @@ export default function SettingsPage() {
       await supabase.from('work_schedules').delete().in('work_date', toDelete)
     }
     if (rows.length > 0) {
-      const { error } = await supabase.from('work_schedules').upsert(rows, { onConflict: 'work_date' })
+      const rowsWithId = rows.map((r) => ({ ...r, id: crypto.randomUUID() }))
+      const { error } = await supabase.from('work_schedules').upsert(rowsWithId, { onConflict: 'work_date' })
       if (error) {
         setMessage({ type: 'error', text: '保存に失敗しました：' + error.message })
         setSaving(false)
