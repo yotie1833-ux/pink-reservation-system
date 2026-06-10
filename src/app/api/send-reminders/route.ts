@@ -8,7 +8,11 @@ export async function GET() {
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   const customerToken = process.env.LINE_CUSTOMER_CHANNEL_ACCESS_TOKEN!
 
-  const supabase = createClient(supabaseUrl, supabaseKey)
+  const supabase = createClient(supabaseUrl, supabaseKey, {
+    global: {
+      fetch: (url, options) => fetch(url, { ...options, cache: 'no-store' })
+    }
+  })
 
   // 日本時間で「明日」の日付を取得
   const now = new Date()
