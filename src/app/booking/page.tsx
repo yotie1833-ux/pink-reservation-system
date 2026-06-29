@@ -235,7 +235,7 @@ function MenuStep({
 
   return (
     <Card>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem', marginTop: '2rem' }}>
         {options.map(({ type, icon, desc }) => (
           <button
             key={type}
