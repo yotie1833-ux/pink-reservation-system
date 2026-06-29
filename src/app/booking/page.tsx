@@ -235,7 +235,6 @@ function MenuStep({
 
   return (
     <Card>
-      <StepTitle>対面占いの予約を行います</StepTitle>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
         {options.map(({ type, icon, desc }) => (
           <button
