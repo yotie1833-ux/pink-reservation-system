@@ -62,7 +62,7 @@ export async function GET() {
     }
 
     const message = [
-      '【明日のご予約リマインド】',
+      '💖明日のご予約確認💖',
       '',
       `${r.customer_name ? r.customer_name + ' 様' : 'お客様'}、明日のご予約をお知らせします ✨`,
       '',
