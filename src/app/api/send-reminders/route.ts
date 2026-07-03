@@ -12,6 +12,16 @@ type ReminderPayload = {
   reservationTime: string
 }
 
+// JSON.stringify がサロゲートペアをエスケープすると LINE が文字化けするため変換する
+function toLineBody(obj: unknown): string {
+  return JSON.stringify(obj).replace(
+    /\\uD([89AB][0-9A-F]{2})\\uD([C-F][0-9A-F]{2})/gi,
+    (_, high, low) => String.fromCodePoint(
+      0x10000 + (parseInt(high, 16) - 0xD800) * 0x400 + (parseInt(low, 16) - 0xDC00)
+    )
+  )
+}
+
 function buildReminderMessage(payload: ReminderPayload): string {
   const { customerName, menuType, duration, price, formattedDate, reservationTime } = payload
   return [
@@ -110,7 +120,7 @@ export async function GET() {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${customerToken}`,
       },
-      body: JSON.stringify({
+      body: toLineBody({
         to: r.customer_line_id,
         messages: [{ type: 'text', text: message }],
       }),
