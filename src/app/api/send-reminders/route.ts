@@ -15,7 +15,7 @@ type ReminderPayload = {
 function buildReminderMessage(payload: ReminderPayload): string {
   const { customerName, menuType, duration, price, formattedDate, reservationTime } = payload
   return [
-    '\u{1FA77}明日のご予約確認\u{1FA77}',
+    '\u{2764}\u{FE0F}明日のご予約確認\u{2764}\u{FE0F}',
     '',
     `${customerName ? customerName + '\u{0020}様' : 'お客様'}、明日のご予約をお知らせします\u{0020}\u{2728}`,
     '',
