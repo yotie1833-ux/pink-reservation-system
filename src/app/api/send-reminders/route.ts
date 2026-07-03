@@ -3,6 +3,40 @@ export const dynamic = 'force-dynamic'
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
+type ReminderPayload = {
+  customerName: string
+  menuType: string
+  duration: number
+  price: number
+  formattedDate: string
+  reservationTime: string
+}
+
+function buildReminderMessage(payload: ReminderPayload): string {
+  const { customerName, menuType, duration, price, formattedDate, reservationTime } = payload
+  return [
+    '\u{1F496}明日のご予約確認\u{1F496}',
+    '',
+    `${customerName ? customerName + '\u{0020}様' : 'お客様'}、明日のご予約をお知らせします\u{0020}\u{2728}`,
+    '',
+    `■ メニュー：${menuType}`,
+    `■ コース　：${duration}分コース`,
+    `■ 料金　　：¥${price.toLocaleString()}`,
+    `■ 予約日　：${formattedDate}`,
+    `■ 予約時間：${reservationTime}`,
+    '',
+    '【場所】開運サロン HiRAKU',
+    '宮崎市橘通東３丁目1-11',
+    'アゲインビル１階（ホテルメリージュ隣）',
+    '',
+    'ご不明な点はLINEにてお気軽にご連絡ください♡',
+    '',
+    'お会いできるのを楽しみにしています✨',
+    '',
+    'Pink -ピンク-',
+  ].join('\n')
+}
+
 export async function GET() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -61,27 +95,14 @@ export async function GET() {
       continue
     }
 
-    const message = [
-      '💖明日のご予約確認💖',
-      '',
-      `${r.customer_name ? r.customer_name + ' 様' : 'お客様'}、明日のご予約をお知らせします ✨`,
-      '',
-      `■ メニュー：${r.menu_type}`,
-      `■ コース　：${r.duration}分コース`,
-      `■ 料金　　：¥${r.price.toLocaleString()}`,
-      `■ 予約日　：${formattedDate}`,
-      `■ 予約時間：${r.reservation_time.slice(0, 5)}`,
-      '',
-      '【場所】開運サロン HiRAKU',
-      '宮崎市橘通東３丁目1-11',
-      'アゲインビル１階（ホテルメリージュ隣）',
-      '',
-      'ご不明な点はLINEにてお気軽にご連絡ください♡',
-      '',
-      'お会いできるのを楽しみにしています✨',
-      '',
-      'Pink -ピンク-',
-    ].join('\n')
+    const message = buildReminderMessage({
+      customerName: r.customer_name,
+      menuType: r.menu_type,
+      duration: r.duration,
+      price: r.price,
+      formattedDate,
+      reservationTime: r.reservation_time.slice(0, 5),
+    })
 
     const res = await fetch('https://api.line.me/v2/bot/message/push', {
       method: 'POST',
