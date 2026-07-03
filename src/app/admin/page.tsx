@@ -408,6 +408,7 @@ export default function AdminPage() {
   const [error, setError] = useState<string | null>(null)
   const [filterDate, setFilterDate] = useState('')
   const [filterMenu, setFilterMenu] = useState('')
+  const [showPast, setShowPast] = useState(false)
   const [selected, setSelected] = useState<Reservation | null>(null)
   const [editing, setEditing] = useState<Reservation | null>(null)
 
@@ -506,7 +507,10 @@ export default function AdminPage() {
     URL.revokeObjectURL(url)
   }
 
+  const todayJST = new Date(new Date().getTime() + 9 * 60 * 60 * 1000).toISOString().slice(0, 10)
+
   const filtered = reservations.filter((r) => {
+    if (!showPast && r.reservation_date < todayJST) return false
     if (filterDate && r.reservation_date !== filterDate) return false
     if (filterMenu && r.menu_type !== filterMenu) return false
     return true
@@ -559,6 +563,20 @@ export default function AdminPage() {
               <option value="電話占い">電話占い</option>
             </select>
           </div>
+          <button
+            onClick={() => setShowPast((prev) => !prev)}
+            style={{
+              padding: '0.5rem 1.25rem', borderRadius: '9999px',
+              border: `2px solid ${PINK}`,
+              background: showPast ? `linear-gradient(135deg, ${PINK}, ${ACCENT_PINK})` : 'white',
+              color: showPast ? 'white' : PINK,
+              fontWeight: 700, cursor: 'pointer', fontSize: '0.85rem',
+              whiteSpace: 'nowrap',
+              transition: 'all 0.2s ease',
+            }}
+          >
+            {showPast ? '📅 今日以降のみ表示' : '🗂 過去の予約も表示'}
+          </button>
           <button
             onClick={() => { setFilterDate(''); setFilterMenu('') }}
             style={{
