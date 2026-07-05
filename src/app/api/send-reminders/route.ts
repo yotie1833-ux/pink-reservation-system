@@ -25,7 +25,7 @@ function toLineBody(obj: unknown): string {
 function buildReminderMessage(payload: ReminderPayload): string {
   const { customerName, menuType, duration, price, formattedDate, reservationTime } = payload
   return [
-    '💝明日のご予約確認💝',
+    '♡明日のご予約確認♡',
     '',
     `${customerName ? customerName + '\u{0020}様' : 'お客様'}、明日のご予約をお知らせします\u{0020}\u{2728}`,
     '',
