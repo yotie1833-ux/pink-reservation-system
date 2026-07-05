@@ -736,9 +736,8 @@ function CompletedScreen({ onReset }: { onReset: () => void }) {
           boxShadow: '0 8px 32px rgba(221,72,141,0.15)',
         }}
       >
-        <div style={{ fontSize: '3.5rem', marginBottom: '1rem' }}>✨</div>
         <h2 style={{ color: PINK, fontSize: '1.4rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
-          予約が完了しました！
+          💝ご予約が完了しました💝
         </h2>
         <p style={{ color: '#666666', fontSize: '0.85rem', marginBottom: '1.5rem', lineHeight: 1.6 }}>
           ご予約ありがとうございます。
