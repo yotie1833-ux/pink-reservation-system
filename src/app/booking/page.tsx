@@ -229,29 +229,67 @@ function MenuStep({
   setMenu: (m: MenuType) => void
   onNext: () => void
 }) {
+  const [showPhoneModal, setShowPhoneModal] = useState(false)
+
   const options = [
     { type: '対面占い' as MenuType, icon: '🌙', desc: '直接お会いしてカード占いします\n\n📍 開運サロン HiRAKU\n宮崎市橘通東３丁目1-11\nアゲインビル１階（ホテルメリージュ隣）' },
   ]
 
   return (
-    <Card>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem', marginTop: '2rem' }}>
-        {options.map(({ type, icon, desc }) => (
+    <>
+      <Card>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem', marginTop: '2rem' }}>
+          {options.map(({ type, icon, desc }) => (
+            <button
+              key={type}
+              onClick={() => setMenu(type)}
+              style={{
+                width: '100%',
+                border: `2px solid ${menu === type ? PINK : GOLD}`,
+                borderRadius: '1rem',
+                padding: '1rem 1rem',
+                background: menu === type ? `${PINK}12` : 'white',
+                cursor: 'pointer',
+                textAlign: 'center',
+                transition: 'all 0.2s ease',
+                boxShadow: menu === type
+                  ? `0 0 0 3px ${PINK}25`
+                  : '0 2px 8px rgba(0,0,0,0.05)',
+                position: 'relative',
+              }}
+            >
+              <span style={{ position: 'absolute', top: 7, left: 10, color: GOLD, fontSize: '0.65rem' }}>✦</span>
+              <span style={{ position: 'absolute', top: 7, right: 10, color: GOLD, fontSize: '0.65rem' }}>✦</span>
+              <span style={{ position: 'absolute', bottom: 7, left: 10, color: GOLD, fontSize: '0.65rem' }}>✦</span>
+              <span style={{ position: 'absolute', bottom: 7, right: 10, color: GOLD, fontSize: '0.65rem' }}>✦</span>
+              <div style={{ fontSize: '1.8rem', marginBottom: '0.4rem' }}>{icon}</div>
+              <div style={{ color: '#333333', fontWeight: 'bold', fontSize: '1rem' }}>{type}</div>
+              <div
+                style={{
+                  color: '#666666',
+                  fontSize: '0.85rem',
+                  marginTop: '0.35rem',
+                  whiteSpace: 'pre-line',
+                  lineHeight: 1.7,
+                }}
+              >
+                {desc}
+              </div>
+            </button>
+          ))}
+
           <button
-            key={type}
-            onClick={() => setMenu(type)}
+            onClick={() => setShowPhoneModal(true)}
             style={{
               width: '100%',
-              border: `2px solid ${menu === type ? PINK : GOLD}`,
+              border: `2px solid ${GOLD}`,
               borderRadius: '1rem',
               padding: '1rem 1rem',
-              background: menu === type ? `${PINK}12` : 'white',
+              background: 'white',
               cursor: 'pointer',
               textAlign: 'center',
               transition: 'all 0.2s ease',
-              boxShadow: menu === type
-                ? `0 0 0 3px ${PINK}25`
-                : '0 2px 8px rgba(0,0,0,0.05)',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
               position: 'relative',
             }}
           >
@@ -259,28 +297,109 @@ function MenuStep({
             <span style={{ position: 'absolute', top: 7, right: 10, color: GOLD, fontSize: '0.65rem' }}>✦</span>
             <span style={{ position: 'absolute', bottom: 7, left: 10, color: GOLD, fontSize: '0.65rem' }}>✦</span>
             <span style={{ position: 'absolute', bottom: 7, right: 10, color: GOLD, fontSize: '0.65rem' }}>✦</span>
-            <div style={{ fontSize: '1.8rem', marginBottom: '0.4rem' }}>{icon}</div>
-            <div style={{ color: '#333333', fontWeight: 'bold', fontSize: '1rem' }}>{type}</div>
-            <div
-              style={{
-                color: '#666666',
-                fontSize: '0.85rem',
-                marginTop: '0.35rem',
-                whiteSpace: 'pre-line',
-                lineHeight: 1.7,
-              }}
-            >
-              {desc}
+            <div style={{ fontSize: '1.8rem', marginBottom: '0.4rem' }}>☎️</div>
+            <div style={{ color: '#333333', fontWeight: 'bold', fontSize: '1rem' }}>電話占い</div>
+            <div style={{ color: '#666666', fontSize: '0.85rem', marginTop: '0.35rem', lineHeight: 1.7 }}>
+              LINEでご希望の日時をお送りください
             </div>
           </button>
-        ))}
-      </div>
-      <div style={{ marginTop: 'auto', width: '100%', display: 'flex' }}>
-        <PrimaryButton onClick={onNext} disabled={!menu}>
-          次へ進む →
-        </PrimaryButton>
-      </div>
-    </Card>
+        </div>
+        <div style={{ marginTop: 'auto', width: '100%', display: 'flex' }}>
+          <PrimaryButton onClick={onNext} disabled={!menu}>
+            次へ進む →
+          </PrimaryButton>
+        </div>
+      </Card>
+
+      {showPhoneModal && (
+        <div
+          onClick={() => setShowPhoneModal(false)}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(0,0,0,0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000,
+            padding: '1rem',
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              background: 'white',
+              borderRadius: '1.5rem',
+              padding: '1.5rem',
+              maxWidth: '340px',
+              width: '100%',
+              boxShadow: '0 8px 32px rgba(221,72,141,0.3)',
+              border: `2px solid ${GOLD}`,
+              position: 'relative',
+            }}
+          >
+            <span style={{ position: 'absolute', top: 12, left: 14, color: GOLD, fontSize: '0.65rem' }}>✦</span>
+            <span style={{ position: 'absolute', top: 12, right: 14, color: GOLD, fontSize: '0.65rem' }}>✦</span>
+            <h3
+              style={{
+                color: PINK,
+                textAlign: 'center',
+                fontSize: '1.05rem',
+                fontWeight: 'bold',
+                marginBottom: '1rem',
+                marginTop: '0.5rem',
+              }}
+            >
+              ☎️【電話占いをご希望の方】
+            </h3>
+            <div
+              style={{
+                background: `${PINK}08`,
+                border: `1px solid ${PINK}40`,
+                borderRadius: '1rem',
+                padding: '1rem 1.1rem',
+                marginBottom: '1.25rem',
+              }}
+            >
+              <p style={{ color: '#444444', fontSize: '0.88rem', lineHeight: 1.85, margin: 0 }}>
+                LINEのトークに以下の内容をお送りください📲
+                <br /><br />
+                ① お名前<br />
+                ② ご希望の日時<br />
+                ③ ご希望の占い時間<br />
+                　（15分／30分／60分）
+                <br /><br />
+                ご希望を確認後、日程をご案内いたします💌
+                <br /><br />
+                <span style={{ color: '#888888', fontSize: '0.78rem' }}>
+                  ※電話占いの場合は別途、振込手数料がかかります。
+                </span>
+              </p>
+            </div>
+            <button
+              onClick={() => setShowPhoneModal(false)}
+              style={{
+                width: '100%',
+                background: `linear-gradient(135deg, ${PINK}, ${ACCENT_PINK})`,
+                color: 'white',
+                border: 'none',
+                borderRadius: '9999px',
+                padding: '0.8rem',
+                fontWeight: 'bold',
+                fontSize: '0.95rem',
+                cursor: 'pointer',
+                boxShadow: `0 4px 12px ${PINK}40`,
+              }}
+            >
+              閉じる
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   )
 }
 
