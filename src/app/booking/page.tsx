@@ -297,7 +297,7 @@ function MenuStep({
             <span style={{ position: 'absolute', top: 7, right: 10, color: GOLD, fontSize: '0.65rem' }}>✦</span>
             <span style={{ position: 'absolute', bottom: 7, left: 10, color: GOLD, fontSize: '0.65rem' }}>✦</span>
             <span style={{ position: 'absolute', bottom: 7, right: 10, color: GOLD, fontSize: '0.65rem' }}>✦</span>
-            <div style={{ fontSize: '1.8rem', marginBottom: '0.4rem' }}>☎️</div>
+            <div style={{ fontSize: '1.8rem', marginBottom: '0.4rem' }}>📱</div>
             <div style={{ color: '#333333', fontWeight: 'bold', fontSize: '1rem' }}>電話占い</div>
             <div style={{ color: '#666666', fontSize: '0.85rem', marginTop: '0.35rem', lineHeight: 1.7 }}>
               LINEでご希望の日時をお送りください
@@ -353,7 +353,7 @@ function MenuStep({
                 marginTop: '0.5rem',
               }}
             >
-              ☎️【電話占いをご希望の方】
+              📱【電話占いをご希望の方】
             </h3>
             <div
               style={{
