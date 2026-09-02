@@ -242,7 +242,7 @@ function MenuStep({
           {options.map(({ type, icon, desc }) => (
             <button
               key={type}
-              onClick={() => setMenu(type)}
+              onClick={() => { setMenu(type); onNext() }}
               style={{
                 width: '100%',
                 border: `2px solid ${menu === type ? PINK : GOLD}`,
@@ -303,11 +303,6 @@ function MenuStep({
               LINEでご希望の日時をお送りください
             </div>
           </button>
-        </div>
-        <div style={{ marginTop: 'auto', width: '100%', display: 'flex' }}>
-          <PrimaryButton onClick={onNext} disabled={!menu}>
-            次へ進む →
-          </PrimaryButton>
         </div>
       </Card>
 
