@@ -801,7 +801,7 @@ function ConfirmStep({
           {error}
         </p>
       )}
-      <div style={{ display: 'flex', gap: '0.75rem' }}>
+      <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1.25rem' }}>
         <BackButton onClick={onBack} />
         <button
           onClick={onConfirm}
